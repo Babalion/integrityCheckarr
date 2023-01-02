@@ -8,8 +8,9 @@ import pandas as pd
 
 # %% Load old list with all movies, when exist
 LIST_PATH = './Testing/movieFileList.csv'
+# TODO add log-rotation
 LOG_PATH = './Testing/movieFileLog.csv'
-COLLECTION_PATH = './Testing/MovieCollection'
+COLLECTION_PATH = '/home/chris/qnapts230/gemeinsamedaten/Filme/Kinofilme'
 
 # FIXME catch if there is no old file
 moviesListOld = pd.read_csv(LIST_PATH, index_col=0,
@@ -63,7 +64,6 @@ print('Checking files now...')
 
 # TODO add multithreading
 # TODO add progress-bar
-# TODO add intermediate save-point
 
 for i, f in mergeList.iterrows():
     if f.modState == 'added' or f.modState == 'modified':
@@ -75,9 +75,7 @@ for i, f in mergeList.iterrows():
         if mergeList.loc[i, 'valid'] != '':
             print(f'Error in decode: {mergeList.loc[i, "valid"]}')
 
-# %% store new list
-print(f'\nCheck finished. You can find more information in the log file at {LOG_PATH}')
-mergeList.to_csv(LOG_PATH)
-mergeList[mergeList['modState'] != 'deleted'].to_csv(LIST_PATH)
+    mergeList.loc[:i, :].to_csv(LOG_PATH)
+    mergeList.loc[:i, :][mergeList.loc[:i, :]['modState'] != 'deleted'].to_csv(LIST_PATH)
 
-# %% TODO add log-rotation
+print(f'\nCheck finished. You can find more information in the log file at {LOG_PATH}')
