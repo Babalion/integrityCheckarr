@@ -5,6 +5,6 @@ services:
     ports:
       - "8050:8050"
     volumes:
-      - ./Movies:/Movies
+      - ./Movies:/Movies:ro
       - ./Logs:/Logs
     restart: unless-stopped
