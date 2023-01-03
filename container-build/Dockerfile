@@ -10,9 +10,9 @@ RUN pip install -r /requirements.txt
 
 EXPOSE 8050
 
-COPY dashboard.py /
 COPY main.py /
 COPY hello-world.py /
+COPY dashboard.py /
 
-CMD [ "gunicorn", "-w", "2", "-b", "0.0.0.0:8050", "dashboard:app" ]
+CMD [ "gunicorn", "-w", "2", "-b", "0.0.0.0:8050", "dashboard:server" ]
 

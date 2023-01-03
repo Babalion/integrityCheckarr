@@ -5,12 +5,15 @@ import subprocess
 from datetime import datetime
 
 import dash
+import flask
+import gunicorn
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
-from dash import dcc, html, dash_table, Input, Output, State
+from dash import dcc, html, dash_table, Input, Output
 
+print(f'gunicorn version:{gunicorn.__version__}')
 # %% Load old list with all movies, when exist
 LIST_PATH = '/Logs/movieFileList.csv'
 # TODO add log-rotation
@@ -30,6 +33,7 @@ moviesListOld['timeHr'] = moviesListOld['modificationTimestamp'].apply(
 moviesListOld['integrity'] = moviesListOld['valid'].apply(lambda v: 'ok' if v == '' else 'error')
 # %% Create the app
 app = dash.Dash()
+server = app.server  # define flask app.server
 
 # define layout constants
 quarter_width = '24%'
@@ -200,4 +204,4 @@ def update_output(n_clicks):
 
 # Run the app in development
 #if __name__ == '__main__':
-#    app.run_server(debug=True, port=8050, host='0.0.0.0')
+#    app.run_server(debug=True)
