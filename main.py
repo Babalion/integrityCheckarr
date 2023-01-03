@@ -13,8 +13,9 @@ LOG_PATH = './Testing/movieFileLog.csv'
 COLLECTION_PATH = '/home/chris/qnapts230/gemeinsamedaten/Filme/Kinofilme'
 
 # FIXME catch if there is no old file
-moviesListOld = pd.read_csv(LIST_PATH, index_col=0,
-                            dtype={'path': 'string', 'modificationTimestamp': np.float64, 'valid': 'string'})
+moviesListOld = pd.read_csv(LIST_PATH, index_col=0,keep_default_na=False,
+                            dtype={'path': 'string', 'modificationTimestamp': np.float64, 'valid': 'string',
+                                   'modState': 'string'})
 
 # %% create the current list with all movies
 
