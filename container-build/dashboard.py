@@ -5,7 +5,6 @@ import subprocess
 from datetime import datetime
 
 import dash
-import flask
 import gunicorn
 import numpy as np
 import pandas as pd
@@ -96,6 +95,7 @@ app.layout = html.Div(children=[
     )], style={'width': quarter_width, 'display': 'inline-block'}),
 
     # Add a pie chart
+    # TODO change axis labels and remove legend
     html.Div(children=[
         dcc.Graph(id='graph2', figure=px.histogram(moviesListOld.fileSizeGb.to_list())),
     ], style={'width': quarter_width, 'display': 'inline-block'}),
@@ -192,16 +192,6 @@ def update_output(n_clicks):
     return 'Script is running...'
 
 
-# def update_output(n_clicks, value):
-#    print(f'button clicked with {n_clicks}')
-#    if n_clicks > 0:
-#        p = subprocess.Popen(['pgrep', '-f', f'{scriptpy}.py'], stdout=subprocess.PIPE)
-#        out, err = p.communicate()
-#
-#        if len(out.strip()) == 0:
-#            os.system(f"python {scriptpy}")
-
-
 # Run the app in development
-#if __name__ == '__main__':
-#    app.run_server(debug=True)
+if __name__ == '__main__':
+    app.run_server(debug=True)
