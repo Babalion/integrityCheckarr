@@ -1,7 +1,7 @@
 version: '3'
 services:
   checkarr:
-    image: integrity-checkarr
+    image: babalion/integrity-checkarr
     ports:
       - "8050:8050"
     volumes:
