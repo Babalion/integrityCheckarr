@@ -8,6 +8,7 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    environment: Docker Hub
     steps:
       - name: Create requirements.txt
         id: create-requirements
