@@ -31,6 +31,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: container-build
+          context: ./container-build
           push: true
           tags: babalion/integrity-checkarr:latest
