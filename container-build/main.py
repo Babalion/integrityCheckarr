@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import glob
 import os
 import subprocess
@@ -7,10 +8,10 @@ import numpy as np
 import pandas as pd
 
 # %% Load old list with all movies, when exist
-LIST_PATH = './Testing/movieFileList.csv'
+LIST_PATH = '/Logs/movieFileList.csv'
 # TODO add log-rotation
-LOG_PATH = './Testing/movieFileLog.csv'
-COLLECTION_PATH = '/home/chris/qnapts230/gemeinsamedaten/Filme/Kinofilme'
+LOG_PATH = '/Logs/movieFileLog.csv'
+COLLECTION_PATH = '/Movies'
 
 # FIXME catch if there is no old file
 moviesListOld = pd.read_csv(LIST_PATH, index_col=0,keep_default_na=False,
@@ -73,6 +74,7 @@ for i, f in mergeList.iterrows():
         mergeList.loc[i, 'valid'] = subprocess.run(
             ['ffmpeg', '-v', 'error', '-i', f['path'], '-map', '0:1', '-f', 'null', '-'],
             capture_output=True).stderr.decode('utf-8')
+        # FIXME multiple line errors shouldn' be logged as this
         if mergeList.loc[i, 'valid'] != '':
             print(f'Error in decode: {mergeList.loc[i, "valid"]}')
 

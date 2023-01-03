@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import pathlib
 import subprocess
@@ -11,19 +12,19 @@ import plotly.graph_objs as go
 from dash import dcc, html, dash_table, Input, Output, State
 
 # %% Load old list with all movies, when exist
-LIST_PATH = './Testing/movieFileList.csv'
+LIST_PATH = '/Logs/movieFileList.csv'
 # TODO add log-rotation
-LOG_PATH = './Testing/movieFileLog.csv'
-COLLECTION_PATH = '/home/chris/qnapts230/gemeinsamedaten/Filme/Kinofilme'
+LOG_PATH = '/Logs/movieFileLog.csv'
+COLLECTION_PATH = '/Movies'
 
 # FIXME catch if there is no old file
 moviesListOld = pd.read_csv(LIST_PATH, index_col=0, keep_default_na=False,
                             dtype={'path': 'string', 'modificationTimestamp': np.float64, 'valid': 'string',
                                    'modState': 'string'})
-
+print(moviesListOld)
 moviesListOld['fileName'] = moviesListOld['path'].apply(lambda p: p.replace(COLLECTION_PATH + '/', ''))
 moviesListOld['fileType'] = moviesListOld['path'].apply(lambda p: pathlib.Path(p).suffix)
-moviesListOld['fileSizeGb'] = moviesListOld['path'].apply(lambda p: os.stat(p).st_size / (1024 ** 3))
+moviesListOld['fileSizeGb'] = moviesListOld['path'].apply(lambda p: os.stat(p).st_size / (1024 ** 3)).astype(np.float64)
 moviesListOld['timeHr'] = moviesListOld['modificationTimestamp'].apply(
     lambda ts: datetime.fromtimestamp(ts).strftime("%m/%d/%Y, %H:%M:%S"))
 moviesListOld['integrity'] = moviesListOld['valid'].apply(lambda v: 'ok' if v == '' else 'error')
@@ -45,7 +46,7 @@ app.layout = html.Div(children=[
     html.H1(children='Integrity Checkarr'),
     html.Div(children=[
         html.H2(f'Total number of movies: {len(moviesListOld.index)}'),
-        html.H2(f'Total size: {np.round(moviesListOld.fileSizeGb.sum(), 1)}GB'),
+        # html.H2(f'Total size: {np.round(moviesListOld.fileSizeGb.sum(), 1)}GB'),
     ], style={'width': '100%', 'display': 'inline-block'}),
 
     # Add a pie chart
@@ -169,6 +170,8 @@ app.layout = html.Div(children=[
 ])
 
 
+# TODO add button to kill process
+
 @app.callback(
     Output('container-button-basic', 'children'),
     Input('submit-val', 'n_clicks'),
@@ -181,8 +184,8 @@ def update_output(n_clicks):
         if n_clicks > 0:  # after first click
             subprocess.Popen(['python', f'{scriptpy}.py'])
             return 'Script is running...'
-        else:
-            return 'Script is not yet launched.'
+        return 'Script is not yet launched.'
+    return 'Script is running...'
 
 
 # def update_output(n_clicks, value):
@@ -195,6 +198,6 @@ def update_output(n_clicks):
 #            os.system(f"python {scriptpy}")
 
 
-# Run the app
-if __name__ == '__main__':
-    app.run_server(debug=True)
+# Run the app in development
+#if __name__ == '__main__':
+#    app.run_server(debug=True, port=8050, host='0.0.0.0')
