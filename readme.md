@@ -6,7 +6,7 @@ Movie viles can corrupt due to errors while copying or duringdownloading from a 
 
 **Integrity Checkarr** provides a nice dashboard built with [Dash](https://dash.plotly.com/).
 
-[IntegrityCheckarr Screenshot](./IntegrityCheckarr-screenshot.png)
+![IntegrityCheckarr Screenshot](./IntegrityCheckarr-screenshot.png)
 
 You can run **Integrity Checkarr** via docker by simply running the `docker-compose.yml` provided in this repo.
 You only have to mount your movie collection folder to the `/Movie` path.
