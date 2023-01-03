@@ -14,8 +14,8 @@ jobs:
         id: create-requirements
         uses: ryan-rozario/pipreqs-action-cpy@master
         with:
-          PROJECT_PATH: container-build   #default is the root of the repository
-          REQUIREMENT_PATH: container-build/requirements.txt  #default is requirement.txt in the root of your repository 
+          PROJECT_PATH: "{{defaultContext}}:container-build"   #default is the root of the repository
+          REQUIREMENT_PATH: "{{defaultContext}}:container-build/requirements.txt"  #default is requirement.txt in the root of your repository 
           
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
