@@ -6,7 +6,7 @@ on:
       - 'master'
 
 jobs:
-  docker:
+  build-and-push-docker:
     runs-on: ubuntu-latest
     environment: Docker Hub
     steps:
@@ -31,6 +31,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./container-build
+          context: "{{defaultContext}}:container-build"
           push: true
           tags: babalion/integrity-checkarr:latest
